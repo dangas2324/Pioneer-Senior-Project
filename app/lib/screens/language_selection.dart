@@ -1,0 +1,26 @@
+import 'package:flutter/material.dart';
+
+class LanguageSelection extends StatelessWidget {
+  const LanguageSelection({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Language Selection'),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context); // Navigate back to the previous page
+          },
+        ),
+      ),
+      body: const Center(
+        child: Text(
+          'Welcome to Language Selection!',
+          style: TextStyle(fontSize: 24),
+        ),
+      ),
+    );
+  }
+}
