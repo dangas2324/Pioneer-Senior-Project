@@ -54,8 +54,10 @@ class _MyHomePageState extends State<MyHomePage> {
             _buildButton(context, 'Start Page', const StartPage()),
             _buildButton(context, 'Menu', const Menu()),
             _buildButton(context, 'Language Options', const LanguageOptions()),
-            _buildButton(context, 'Language Selection', const LanguageSelection()),
-            _buildButton(context, 'Study Set Selection', const StudySetSelection()),
+            _buildButton(
+                context, 'Language Selection', const LanguageSelection()),
+            _buildButton(
+                context, 'Study Set Selection', const StudySetSelection()),
             _buildButton(context, 'Study Set Options', const StudySetOptions()),
             _buildButton(context, 'Word Selection', const WordSelection()),
             _buildButton(context, 'Add Word', const AddWord()),
@@ -79,11 +81,10 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-
 class PlaceholderPage extends StatelessWidget {
   final String message;
 
-  const PlaceholderPage({Key? key, required this.message}) : super(key: key);
+  const PlaceholderPage({super.key, required this.message});
 
   @override
   Widget build(BuildContext context) {
