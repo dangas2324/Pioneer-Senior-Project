@@ -83,7 +83,7 @@ class _MyHomePageState extends State<MyHomePage> {
 class PlaceholderPage extends StatelessWidget {
   final String message;
 
-  const PlaceholderPage({Key? key, required this.message}) : super(key: key);
+  const PlaceholderPage({super.key, required this.message});
 
   @override
   Widget build(BuildContext context) {
