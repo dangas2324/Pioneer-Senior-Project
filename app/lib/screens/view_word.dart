@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class AddWord extends StatelessWidget {
-  const AddWord({super.key});
+class ViewWord extends StatelessWidget {
+  const ViewWord({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Add Word'),
+        title: const Text('View Word'),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
@@ -17,7 +17,7 @@ class AddWord extends StatelessWidget {
       ),
       body: const Center(
         child: Text(
-          'Welcome to Add Word!',
+          'Welcome to View Word!',
           style: TextStyle(fontSize: 24),
         ),
       ),
