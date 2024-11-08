@@ -31,8 +31,8 @@ class LanguageSelection extends StatelessWidget {
           style: TextStyle(color: Colors.white),
         ),
         backgroundColor: const Color(0xFF07394B),
-        actions: [
-          const Menu(),
+        actions: const [
+          Menu(),
         ],
       ),
       body: Padding(
