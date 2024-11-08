@@ -41,7 +41,7 @@ class MenuItems extends StatelessWidget {
           title: 'Studies',
           subtitle: 'Menu description.',
           trailingIcon: Icons.keyboard_capslock,
-          route: '/studies', // Route for Studies
+          route: '/selectStudy', // Route for Studies
         ),
         const Divider(),
         _buildMenuItem(
