@@ -25,7 +25,28 @@ class RouteGenerator {
         return _errorRoute();
       case '/words':
         return MaterialPageRoute(builder: (_) => WordSelection());
-
+      case '/view':
+        if (args is ViewWordArguments) {
+          return MaterialPageRoute(
+            builder: (_) => ViewWord(
+              key: UniqueKey(),
+              ipaWord: args.ipaWord,
+              tradeWord: args.tradeWord,
+            )
+          );
+        }
+        return _errorRoute();
+      case '/edit':
+        if (args is EditWordArguments) {
+          return MaterialPageRoute(
+            builder: (_) => AddEditWord(
+              key: UniqueKey(),
+              ipaWord: args.ipaWord,
+              tradeWord: args.tradeWord,
+            )
+          );
+        }
+        return _errorRoute();
       default:
         return _errorRoute();
     }
