@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:app/widgets/Menu/menu.dart';
 
 class StartPage extends StatelessWidget {
   const StartPage({super.key});
@@ -9,30 +10,19 @@ class StartPage extends StatelessWidget {
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: const Color(0xFF074A5F),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () {
-        Navigator.pop(context); // Navigate back to the previous page
-          },
-        ),
         actions: [
           TextButton(
-        onPressed: () {
-          // Handle sign in/out action
-        },
-        child: const Text(
-          'Sign In/Out',
-          style: TextStyle(
-            color: Colors.white,
-          ),
-        ),
-          ),
-            IconButton(
-            icon: const Icon(Icons.settings, color: Colors.white),
             onPressed: () {
-              // Handle settings action
+              // Handle sign in/out action
             },
+            child: const Text(
+              'Sign In/Out',
+              style: TextStyle(
+                color: Colors.white,
+              ),
+            ),
           ),
+          Menu(), 
         ],
       ),
       backgroundColor: const Color(0xFFD8D4D1), // Set background color here
@@ -45,7 +35,9 @@ class StartPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context).pushNamed('/selectLanguages');
+                  },
                   child: const Text('View All Languages'),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF095A6D), // Button background color

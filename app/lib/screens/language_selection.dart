@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:app/widgets/Menu/menu.dart';
 
 final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
     GlobalKey<ScaffoldMessengerState>();
@@ -38,12 +39,7 @@ class LanguageSelection extends StatelessWidget {
         ),
         backgroundColor: const Color(0xFF07394B),
         actions: [
-          IconButton(
-            icon: const Icon(Icons.menu, color: Colors.white),
-            onPressed: () {
-              // Add functionality here
-            },
-          ),
+          Menu(),
         ],
       ),
       body: Padding(

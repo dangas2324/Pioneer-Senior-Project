@@ -1,14 +1,5 @@
-import 'package:app/screens/view_word.dart';
-import 'package:app/screens/add_edit_word.dart';
-import 'package:app/screens/language_options.dart';
-import 'package:app/screens/language_selection.dart';
-import 'package:app/screens/study_set_options.dart';
-import 'package:app/screens/study_set_selection.dart';
-import 'package:app/screens/word_selection.dart';
+import 'package:app/route_generator.dart';
 import 'package:flutter/material.dart';
-
-import 'screens/start_page.dart'; // Import Start Page page
-import 'screens/menu.dart'; // Import Menu page
 
 void main() {
   runApp(const MyApp());
@@ -25,7 +16,8 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      initialRoute: '/',
+      onGenerateRoute: RouteGenerator.generateRoute,
     );
   }
 }
@@ -50,7 +42,7 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Center(
         child: GridView.count(
           crossAxisCount: 3, // 3 buttons per row
-          children: <Widget>[
+          /*children: <Widget>[
             _buildButton(context, 'Start Page', const StartPage()),
             _buildButton(context, 'Menu', const Menu()),
             _buildButton(context, 'Language Options', const LanguageOptions()),
@@ -62,7 +54,7 @@ class _MyHomePageState extends State<MyHomePage> {
             _buildButton(context, 'Word Selection', const WordSelection()),
             _buildButton(context, 'Add Word', const ViewWord()),
             _buildButton(context, 'Edit Word', const EditWord()),
-          ],
+          ],*/
         ),
       ),
     );
