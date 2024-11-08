@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
 
 class LanguageOptions extends StatelessWidget {
-  const LanguageOptions({super.key});
+
+  final String data; //Change to everything under a language
+  //Language JSON { Study set array, word array, etc.}
+
+  LanguageOptions({
+    required Key key,
+    required this.data,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,9 +22,9 @@ class LanguageOptions extends StatelessWidget {
             Navigator.pop(context); // Navigate back to the previous page
           },
         ),
-        title: const Text(
-          'Language_Name',
-          style: TextStyle(color: Colors.white),
+        title: Text(
+          data,
+          style: const TextStyle(color: Colors.white),
         ),
       ),
       body: Center(

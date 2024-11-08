@@ -16,9 +16,10 @@ class RouteGenerator {
         if (args is String) {
           return MaterialPageRoute(
             builder: (_) => LanguageOptions(
+              key: UniqueKey(),
               data: args,
             )
-          )
+          );
         }
         return _errorRoute();
       default:

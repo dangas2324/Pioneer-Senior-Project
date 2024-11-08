@@ -3,9 +3,13 @@ import 'package:app/widgets/Menu/menu.dart';
 
 class StartPage extends StatelessWidget {
   const StartPage({super.key});
+  
 
   @override
   Widget build(BuildContext context) {
+    final List<String> languages = ['Any Language','Spanish', 'French', 'German', 'Chinese', 'Japanese', 'French'];
+    //Change this to list of languages from Firestore
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -54,25 +58,33 @@ class StartPage extends StatelessWidget {
             Expanded(
               child: ListView(
               children: [
-                for (var language in ['Any Language','Spanish', 'French', 'German', 'Chinese', 'Japanese', 'French'])
-                Padding(
+                for (var language in languages)
+
+                //Might need to change these to LanguageButtons in language_selection
+                Padding( 
                   padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 80), // Increased horizontal padding to make buttons smaller in length
                   child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context).pushNamed(
+                      '/language',
+                      arguments: language,
+                    );        
+                  },
                   child: Padding(
-                    padding: const EdgeInsets.all(6.0), // Adjusted padding here
+                    padding: const EdgeInsets.all(6.0),
                     child: Text(language),
                   ),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF095A6D),
                     foregroundColor: Colors.white, // Text color
-                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15), // Adjusted padding here
+                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15), 
                     shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8), // Slightly rounded corners
+                    borderRadius: BorderRadius.circular(8), 
                     ),
                   ),
                   ),
                 ),
+
               ],
               ),
             ),
