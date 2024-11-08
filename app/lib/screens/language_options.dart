@@ -62,7 +62,9 @@ class LanguageOptions extends StatelessWidget {
                   width: 150, // Set the same fixed width for the buttons
                   child: ElevatedButton(
                     onPressed: () {
-                      // Action for 'Study' button
+                      Navigator.of(context).pushNamed(
+                        '/selectStudy',
+                      );        
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF095A6D),

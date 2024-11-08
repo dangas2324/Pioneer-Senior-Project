@@ -47,6 +47,8 @@ class RouteGenerator {
           );
         }
         return _errorRoute();
+      case '/selectStudy':
+        return MaterialPageRoute(builder: (_) => StudySetSelection());
       default:
         return _errorRoute();
     }

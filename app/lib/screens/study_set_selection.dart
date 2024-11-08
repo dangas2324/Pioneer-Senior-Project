@@ -1,23 +1,8 @@
+import 'package:app/screens/screens.dart';
 import 'package:flutter/material.dart';
 
 final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
     GlobalKey<ScaffoldMessengerState>();
-
-void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      scaffoldMessengerKey: scaffoldMessengerKey,
-      home: const StudySetSelection(), 
-    );
-  }
-}
 
 class StudySetSelection extends StatelessWidget {
   const StudySetSelection({super.key});
@@ -37,13 +22,8 @@ class StudySetSelection extends StatelessWidget {
           style: TextStyle(color: Colors.white),
         ),
         backgroundColor: const Color(0xFF07394B),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.menu, color: Colors.white),
-            onPressed: () {
-              // Add functionality here
-            },
-          ),
+        actions: const [
+          Menu()
         ],
       ),
       body: Padding(
