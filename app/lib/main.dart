@@ -1,5 +1,5 @@
-import 'package:app/screens/add_word.dart';
-import 'package:app/screens/edit_word.dart';
+import 'package:app/screens/view_word.dart';
+import 'package:app/screens/add_edit_word.dart';
 import 'package:app/screens/language_options.dart';
 import 'package:app/screens/language_selection.dart';
 import 'package:app/screens/study_set_options.dart';
@@ -60,7 +60,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 context, 'Study Set Selection', const StudySetSelection()),
             _buildButton(context, 'Study Set Options', const StudySetOptions()),
             _buildButton(context, 'Word Selection', const WordSelection()),
-            _buildButton(context, 'Add Word', const AddWord()),
+            _buildButton(context, 'Add Word', const ViewWord()),
             _buildButton(context, 'Edit Word', const EditWord()),
           ],
         ),
