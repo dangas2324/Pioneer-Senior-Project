@@ -52,20 +52,6 @@ class StartPage extends StatelessWidget {
                     ),
                   ),
                 ),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context).pushNamed('/firebaseTest');
-                  },
-                  child: const Text('Test Firebase'),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Color.fromARGB(255, 255, 138, 12),// Button background color
-                    foregroundColor: Colors.white, // Text color
-                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20), // Increased height
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8), // Slightly rounded corners
-                    ),
-                  ),
-                ),
               ],
             ),
             const SizedBox(height: 40),

@@ -60,6 +60,15 @@ class MenuItems extends StatelessWidget {
           trailingIcon: Icons.keyboard_capslock,
           route: '/settings', // Route for Settings
         ),
+        _buildMenuItem(
+          context,
+          icon: Icons.private_connectivity_outlined,
+          title: 'Firebase',
+          subtitle: 'Firebase Connectivity.',
+          trailingIcon: Icons.keyboard_capslock,
+          route: '/firebaseTest', // Route for Settings
+        ),
+
       ],
     );
   }
