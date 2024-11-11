@@ -1,8 +1,22 @@
+import 'package:app/screens/screens.dart';
 import 'package:flutter/material.dart';
-import 'package:app/screens/add_edit_word.dart';
+
+class ViewWordArguments {
+  final String ipaWord;
+  final String tradeWord;
+
+  ViewWordArguments(this.ipaWord, this.tradeWord);
+}
 
 class ViewWord extends StatelessWidget {
-  const ViewWord({super.key});
+  final String ipaWord;
+  final String tradeWord;
+
+  ViewWord({
+    required Key key,
+    required this.ipaWord,
+    required this.tradeWord,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,13 +33,8 @@ class ViewWord extends StatelessWidget {
           style: TextStyle(color: Colors.white),
         ),
         backgroundColor: const Color(0xFF07394B),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.menu, color: Colors.white),
-            onPressed: () {
-              // You can add functionality here if needed
-            },
-          ),
+        actions: const [
+          Menu()
         ],
       ),
       backgroundColor: Colors.white,
@@ -44,13 +53,11 @@ class ViewWord extends StatelessWidget {
                     size: 28,
                   ),
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const EditWord(),
-                      ),
+                    Navigator.of(context).pushNamed(
+                      '/edit',
+                      arguments: EditWordArguments(ipaWord, tradeWord),
                     );
-                  },
+                  }, 
                 ),
               ),
             ),
@@ -69,9 +76,9 @@ class ViewWord extends StatelessWidget {
                           color: Colors.grey,
                         ),
                       ),
-                      const Text(
-                        'Vernacular / IPA',
-                        style: TextStyle(
+                      Text(
+                        ipaWord,
+                        style: const TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
                         ),
@@ -86,9 +93,9 @@ class ViewWord extends StatelessWidget {
                           color: Colors.grey,
                         ),
                       ),
-                      const Text(
-                        'Trade word',
-                        style: TextStyle(
+                      Text(
+                        tradeWord,
+                        style: const TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
                         ),

@@ -1,29 +1,23 @@
 import 'package:flutter/material.dart';
-
-final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
-    GlobalKey<ScaffoldMessengerState>();
-
-void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      scaffoldMessengerKey: scaffoldMessengerKey,
-      home: const LanguageSelection(),
-    );
-  }
-}
+import 'package:app/widgets/Menu/menu.dart';
 
 class LanguageSelection extends StatelessWidget {
   const LanguageSelection({super.key});
 
   @override
   Widget build(BuildContext context) {
+    
+    //Replace this with Firestore Languages backend
+    final List<String> languages = [
+      'English',
+      'Spanish',
+      'French',
+      'German',
+      'Chinese',
+      'Japanese',
+      'Korean',
+      'Arabic',
+    ];
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -37,13 +31,8 @@ class LanguageSelection extends StatelessWidget {
           style: TextStyle(color: Colors.white),
         ),
         backgroundColor: const Color(0xFF07394B),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.menu, color: Colors.white),
-            onPressed: () {
-              // Add functionality here
-            },
-          ),
+        actions: const [
+          Menu(),
         ],
       ),
       body: Padding(
@@ -68,18 +57,13 @@ class LanguageSelection extends StatelessWidget {
             const SizedBox(height: 20),
             // Language Buttons
             Expanded(
-              child: ListView(
-                children: const [
-                  LanguageButton(language: 'English'),
-                  LanguageButton(language: 'Spanish'),
-                  LanguageButton(language: 'French'),
-                  LanguageButton(language: 'German'),
-                  LanguageButton(language: 'Chinese'),
-                  LanguageButton(language: 'Japanese'),
-                  LanguageButton(language: 'Korean'),
-                  LanguageButton(language: 'Arabic'),
-                  // Add more languages as needed
-                ],
+              child: ListView.builder(
+                itemCount: languages.length,
+                itemBuilder: (context, index) {
+                  return LanguageButton(
+                    language: languages[index],
+                  );
+                },
               ),
             ),
           ],
@@ -102,7 +86,6 @@ class LanguageSelection extends StatelessWidget {
 
 class LanguageButton extends StatelessWidget {
   final String language;
-
   const LanguageButton({super.key, required this.language});
 
   @override
@@ -110,10 +93,15 @@ class LanguageButton extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: ElevatedButton(
-        onPressed: () {}, // Button is not functional but appears active
+        onPressed: () {
+          Navigator.of(context).pushNamed(
+            '/language',
+            arguments: language,
+          );        
+        },
         style: ElevatedButton.styleFrom(
-          backgroundColor: const Color(0xFF095A6D), // Background color
-          foregroundColor: Colors.white, // Text color
+          backgroundColor: const Color(0xFF095A6D), 
+          foregroundColor: Colors.white, 
           padding: const EdgeInsets.symmetric(vertical: 16.0),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8.0),
@@ -127,5 +115,3 @@ class LanguageButton extends StatelessWidget {
     );
   }
 }
-
-//Daniel Gaskins

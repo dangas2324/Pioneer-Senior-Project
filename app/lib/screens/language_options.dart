@@ -1,7 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:app/widgets/Menu/menu.dart';
 
 class LanguageOptions extends StatelessWidget {
-  const LanguageOptions({super.key});
+
+  final String data; //Change to everything under a language
+  //Language JSON??? { Study set array, word array, etc.}
+
+  LanguageOptions({
+    required Key key,
+    required this.data,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,10 +23,13 @@ class LanguageOptions extends StatelessWidget {
             Navigator.pop(context); // Navigate back to the previous page
           },
         ),
-        title: const Text(
-          'Language_Name',
-          style: TextStyle(color: Colors.white),
+        title: Text(
+          data,
+          style: const TextStyle(color: Colors.white),
         ),
+        actions: [
+          Menu(),
+        ],
       ),
       body: Center(
         child: Column(
@@ -32,32 +43,36 @@ class LanguageOptions extends StatelessWidget {
                   width: 150, // Set a fixed width for the buttons
                   child: ElevatedButton(
                     onPressed: () {
-                      // Action for 'View Words' button
+                      Navigator.of(context).pushNamed(
+                        '/words',
+                      );        
                     },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF095A6D), 
+                      padding: const EdgeInsets.symmetric(vertical: 20), 
+                    ),
                     child: const Text(
                       'View Words',
                       style: TextStyle(color: Colors.white),
                     ),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF095A6D), // Button background color
-                      padding: const EdgeInsets.symmetric(vertical: 20), // Adjusted padding
-                    ),
                   ),
                 ),
-                const SizedBox(width: 20), // Add spacing between the buttons
+                const SizedBox(width: 20), 
                 SizedBox(
                   width: 150, // Set the same fixed width for the buttons
                   child: ElevatedButton(
                     onPressed: () {
-                      // Action for 'Study' button
+                      Navigator.of(context).pushNamed(
+                        '/selectStudy',
+                      );        
                     },
-                    child: const Text(
-                      'View Studies',
-                      style: TextStyle(color: Colors.white),
-                    ),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF095A6D),
                       padding: const EdgeInsets.symmetric(vertical: 20), // Adjusted padding
+                    ),
+                    child: const Text(
+                      'View Studies',
+                      style: TextStyle(color: Colors.white),
                     ),
                   ),
                 ),
@@ -68,14 +83,12 @@ class LanguageOptions extends StatelessWidget {
               child: ListView(
                 children: [
                   for (var study in ['Recent Study 1', 'Recent Study 2'])
+                    
+                    //Could change this to a unique button/file
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 80), // Increased horizontal padding to make buttons smaller in length
                       child: ElevatedButton(
                         onPressed: () {},
-                        child: Padding(
-                          padding: const EdgeInsets.all(6.0), // Adjusted padding here
-                          child: Text(study),
-                        ),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xFF095A6D),
                           foregroundColor: Colors.white, // Text color
@@ -83,6 +96,10 @@ class LanguageOptions extends StatelessWidget {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8), // Slightly rounded corners
                           ),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(6.0), // Adjusted padding here
+                          child: Text(study),
                         ),
                       ),
                     ),

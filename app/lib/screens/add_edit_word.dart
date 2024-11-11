@@ -1,7 +1,22 @@
+import 'package:app/screens/screens.dart';
 import 'package:flutter/material.dart';
 
-class EditWord extends StatelessWidget {
-  const EditWord({super.key});
+class EditWordArguments {
+  final String ipaWord;
+  final String tradeWord;
+
+  EditWordArguments(this.ipaWord, this.tradeWord);
+}
+
+class AddEditWord extends StatelessWidget {
+  final String ipaWord;
+  final String tradeWord;
+
+  AddEditWord({
+    required Key key,
+    required this.ipaWord,
+    required this.tradeWord,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,13 +33,8 @@ class EditWord extends StatelessWidget {
           style: TextStyle(color: Colors.white),
         ),
         backgroundColor: const Color(0xFF07394B),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.menu, color: Colors.white),
-            onPressed: () {
-              // You can add functionality here if needed
-            },
-          ),
+        actions: const [
+          Menu()
         ],
       ),
       backgroundColor: Colors.white,
@@ -47,6 +57,7 @@ class EditWord extends StatelessWidget {
                     ),
                     const SizedBox(height: 8),
                     TextField(
+                      controller: TextEditingController(text: ipaWord),
                       decoration: InputDecoration(
                         hintText: 'Type the word here',
                         border: OutlineInputBorder(
@@ -71,6 +82,7 @@ class EditWord extends StatelessWidget {
                     ),
                     const SizedBox(height: 8),
                     TextField(
+                      controller: TextEditingController(text: tradeWord),
                       decoration: InputDecoration(
                         hintText: 'Type the translated word here',
                         border: OutlineInputBorder(

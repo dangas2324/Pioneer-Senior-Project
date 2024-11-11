@@ -1,23 +1,6 @@
+import 'package:app/screens/screens.dart';
+import 'package:app/widgets/Menu/menu.dart';
 import 'package:flutter/material.dart';
-
-final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
-    GlobalKey<ScaffoldMessengerState>();
-
-void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      scaffoldMessengerKey: scaffoldMessengerKey,
-      home: const WordSelection(),
-    );
-  }
-}
 
 class WordSelection extends StatelessWidget {
   const WordSelection({super.key});
@@ -37,13 +20,8 @@ class WordSelection extends StatelessWidget {
           style: TextStyle(color: Colors.white),
         ),
         backgroundColor: const Color(0xFF07394B),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.menu, color: Colors.white),
-            onPressed: () {
-              // You can add functionality here if needed
-            },
-          ),
+        actions: const [
+          Menu()
         ],
       ),
       body: Padding(
@@ -112,7 +90,12 @@ class WordButton extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: ElevatedButton(
-        onPressed: () {}, // Button is not functional but appears active
+        onPressed: () {
+          Navigator.of(context).pushNamed(
+            '/view',
+            arguments: ViewWordArguments(ipaWord, translatedWord),
+          );      
+        }, 
         style: ElevatedButton.styleFrom(
           backgroundColor: const Color(0xFF095A6D), // Background color
           foregroundColor: Colors.white, // Text color
@@ -158,7 +141,12 @@ class WordButton extends StatelessWidget {
                 ),
                 IconButton(
                   icon: const Icon(Icons.edit, color: Color(0xFFF9BAA5)),
-                  onPressed: () {}, // Edit button
+                  onPressed: () {
+                    Navigator.of(context).pushNamed(
+                    '/edit',
+                    arguments: EditWordArguments(ipaWord, translatedWord),
+                    );
+                  }, 
                 ),
               ],
             ),
