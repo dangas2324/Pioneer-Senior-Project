@@ -20,10 +20,9 @@ class WordSelection extends StatelessWidget {
           style: TextStyle(color: Colors.white),
         ),
         backgroundColor: const Color(0xFF07394B),
-        actions: const [
-          Menu()
-        ],
+        actions: const [Menu()],
       ),
+      backgroundColor: Colors.white,
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -94,8 +93,8 @@ class WordButton extends StatelessWidget {
           Navigator.of(context).pushNamed(
             '/view',
             arguments: ViewWordArguments(ipaWord, translatedWord),
-          );      
-        }, 
+          );
+        },
         style: ElevatedButton.styleFrom(
           backgroundColor: const Color(0xFF095A6D), // Background color
           foregroundColor: Colors.white, // Text color
@@ -143,10 +142,10 @@ class WordButton extends StatelessWidget {
                   icon: const Icon(Icons.edit, color: Color(0xFFF9BAA5)),
                   onPressed: () {
                     Navigator.of(context).pushNamed(
-                    '/edit',
-                    arguments: EditWordArguments(ipaWord, translatedWord),
+                      '/edit',
+                      arguments: EditWordArguments(ipaWord, translatedWord),
                     );
-                  }, 
+                  },
                 ),
               ],
             ),

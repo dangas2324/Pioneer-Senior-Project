@@ -12,7 +12,7 @@ class AddEditWord extends StatelessWidget {
   final String ipaWord;
   final String tradeWord;
 
-  AddEditWord({
+  const AddEditWord({
     required Key key,
     required this.ipaWord,
     required this.tradeWord,
@@ -33,9 +33,7 @@ class AddEditWord extends StatelessWidget {
           style: TextStyle(color: Colors.white),
         ),
         backgroundColor: const Color(0xFF07394B),
-        actions: const [
-          Menu()
-        ],
+        actions: const [Menu()],
       ),
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -69,9 +67,9 @@ class AddEditWord extends StatelessWidget {
                         ),
                       ),
                     ),
-                    
+
                     const SizedBox(height: 20),
-                    
+
                     // Trade Language Input
                     const Text(
                       'Trade Language',
@@ -94,9 +92,9 @@ class AddEditWord extends StatelessWidget {
                         ),
                       ),
                     ),
-                    
+
                     const SizedBox(height: 20),
-                    
+
                     // Tags Section
                     const Text(
                       'Tags',
@@ -117,9 +115,9 @@ class AddEditWord extends StatelessWidget {
                         buildAddTagButton(),
                       ],
                     ),
-                    
+
                     const SizedBox(height: 20),
-                    
+
                     // Media Section
                     const Text(
                       'Media',

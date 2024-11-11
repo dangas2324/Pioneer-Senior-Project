@@ -3,11 +3,18 @@ import 'package:app/widgets/Menu/menu.dart';
 
 class StartPage extends StatelessWidget {
   const StartPage({super.key});
-  
 
   @override
   Widget build(BuildContext context) {
-    final List<String> languages = ['Any Language','Spanish', 'French', 'German', 'Chinese', 'Japanese', 'French'];
+    final List<String> languages = [
+      'Any Language',
+      'Spanish',
+      'French',
+      'German',
+      'Chinese',
+      'Japanese',
+      'French'
+    ];
     //Change this to list of languages from Firestore
 
     return Scaffold(
@@ -17,7 +24,8 @@ class StartPage extends StatelessWidget {
         actions: [
           TextButton(
             onPressed: () {
-              // Handle sign in/out action
+              Navigator.of(context)
+                  .pushNamed('/login'); // Handle sign in/out action
             },
             child: const Text(
               'Sign In/Out',
@@ -26,10 +34,10 @@ class StartPage extends StatelessWidget {
               ),
             ),
           ),
-          Menu(), 
+          const Menu(),
         ],
       ),
-      backgroundColor: const Color(0xFFD8D4D1), // Set background color here
+      backgroundColor: Colors.white, // Set background color here
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -42,50 +50,56 @@ class StartPage extends StatelessWidget {
                   onPressed: () {
                     Navigator.of(context).pushNamed('/selectLanguages');
                   },
-                  child: const Text('View All Languages'),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF095A6D), // Button background color
+                    backgroundColor:
+                        const Color(0xFF095A6D), // Button background color
                     foregroundColor: Colors.white, // Text color
-                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20), // Increased height
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 20), // Increased height
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8), // Slightly rounded corners
+                      borderRadius:
+                          BorderRadius.circular(8), // Slightly rounded corners
                     ),
                   ),
+                  child: const Text('View All Languages'),
                 ),
               ],
             ),
             const SizedBox(height: 40),
             Expanded(
               child: ListView(
-              children: [
-                for (var language in languages)
+                children: [
+                  for (var language in languages)
 
-                //Might need to change these to LanguageButtons in language_selection
-                Padding( 
-                  padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 80), // Increased horizontal padding to make buttons smaller in length
-                  child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context).pushNamed(
-                      '/language',
-                      arguments: language,
-                    );        
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(6.0),
-                    child: Text(language),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF095A6D),
-                    foregroundColor: Colors.white, // Text color
-                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15), 
-                    shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8), 
+                    //Might need to change these to LanguageButtons in language_selection
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 10,
+                          horizontal:
+                              80), // Increased horizontal padding to make buttons smaller in length
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.of(context).pushNamed(
+                            '/language',
+                            arguments: language,
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xFF095A6D),
+                          foregroundColor: Colors.white, // Text color
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 15),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(6.0),
+                          child: Text(language),
+                        ),
+                      ),
                     ),
-                  ),
-                  ),
-                ),
-
-              ],
+                ],
               ),
             ),
           ],
