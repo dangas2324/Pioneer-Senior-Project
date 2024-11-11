@@ -7,3 +7,4 @@ export 'start_page.dart';
 export 'study_set_selection.dart'; 
 export 'view_word.dart';
 export 'word_selection.dart'; 
+export 'firebase_test.dart';

@@ -49,6 +49,8 @@ class RouteGenerator {
         return _errorRoute();
       case '/selectStudy':
         return MaterialPageRoute(builder: (_) => StudySetSelection());
+      case '/firebaseTest':
+        return MaterialPageRoute(builder: (_) => FirebaseTest());
       default:
         return _errorRoute();
     }
