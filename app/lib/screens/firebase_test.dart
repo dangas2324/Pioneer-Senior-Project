@@ -18,13 +18,6 @@ class _FirebaseTestState extends State<FirebaseTest> {
   // To store fetched user data
   List<Map<String, dynamic>> _userData = [];
 
-  @override
-  void initState() {
-    super.initState();
-    // Fetch data when the widget is initialized
-    fetchData();
-  }
-
   // Add data to Firestore
   Future<void> addData() async {
     try {
@@ -36,14 +29,12 @@ class _FirebaseTestState extends State<FirebaseTest> {
       _nameController.clear();
       _ageController.clear();
       _emailController.clear();
-      // Fetch updated data
-      fetchData();
     } catch (e) {
       print('Error adding data: $e');
     }
   }
 
-  // Retrieve data from Firestore
+  // Retrieve data from Firestore (called when the button is pressed)
   Future<void> fetchData() async {
     try {
       QuerySnapshot snapshot = await users.get();
@@ -98,7 +89,7 @@ class _FirebaseTestState extends State<FirebaseTest> {
                   ),
                   const SizedBox(height: 20),
                   ElevatedButton(
-                    onPressed: fetchData,
+                    onPressed: fetchData, // Data is fetched only when this button is pressed
                     child: const Text('Get Data from Firestore'),
                   ),
                 ],
