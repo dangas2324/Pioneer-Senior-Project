@@ -12,7 +12,7 @@ class ViewWord extends StatelessWidget {
   final String ipaWord;
   final String tradeWord;
 
-  ViewWord({
+  const ViewWord({
     required Key key,
     required this.ipaWord,
     required this.tradeWord,
@@ -33,9 +33,7 @@ class ViewWord extends StatelessWidget {
           style: TextStyle(color: Colors.white),
         ),
         backgroundColor: const Color(0xFF07394B),
-        actions: const [
-          Menu()
-        ],
+        actions: const [Menu()],
       ),
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -57,7 +55,7 @@ class ViewWord extends StatelessWidget {
                       '/edit',
                       arguments: EditWordArguments(ipaWord, tradeWord),
                     );
-                  }, 
+                  },
                 ),
               ),
             ),
@@ -84,7 +82,7 @@ class ViewWord extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 20),
-                      
+
                       // Trade Language Section
                       const Text(
                         'Trade Language -',
@@ -101,7 +99,7 @@ class ViewWord extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 20),
-                      
+
                       // Tags Section
                       const Text(
                         'Tags',
@@ -122,9 +120,9 @@ class ViewWord extends StatelessWidget {
                           buildAddTagButton(),
                         ],
                       ),
-                      
+
                       const SizedBox(height: 20),
-                      
+
                       // Media Section
                       const Text(
                         'Media',
@@ -158,8 +156,8 @@ class ViewWord extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 16),
-                      
-                      // Media Grid 
+
+                      // Media Grid
                       GridView.count(
                         crossAxisCount: 3,
                         crossAxisSpacing: 12,

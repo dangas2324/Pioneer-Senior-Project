@@ -22,10 +22,9 @@ class StudySetSelection extends StatelessWidget {
           style: TextStyle(color: Colors.white),
         ),
         backgroundColor: const Color(0xFF07394B),
-        actions: const [
-          Menu()
-        ],
+        actions: const [Menu()],
       ),
+      backgroundColor: Colors.white,
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(

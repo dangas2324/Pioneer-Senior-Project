@@ -6,7 +6,6 @@ class LanguageSelection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    
     //Replace this with Firestore Languages backend
     final List<String> languages = [
       'English',
@@ -35,6 +34,7 @@ class LanguageSelection extends StatelessWidget {
           Menu(),
         ],
       ),
+      backgroundColor: Colors.white,
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -97,11 +97,11 @@ class LanguageButton extends StatelessWidget {
           Navigator.of(context).pushNamed(
             '/language',
             arguments: language,
-          );        
+          );
         },
         style: ElevatedButton.styleFrom(
-          backgroundColor: const Color(0xFF095A6D), 
-          foregroundColor: Colors.white, 
+          backgroundColor: const Color(0xFF095A6D),
+          foregroundColor: Colors.white,
           padding: const EdgeInsets.symmetric(vertical: 16.0),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8.0),
