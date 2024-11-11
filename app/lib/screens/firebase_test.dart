@@ -7,10 +7,10 @@ class FirebaseTest extends StatefulWidget {
   const FirebaseTest({super.key});
 
   @override //Create instance of this page for database testing
-  _FirebaseTestState createState() => _FirebaseTestState();
+  FirebaseTestState createState() => FirebaseTestState();
 }
 
-class _FirebaseTestState extends State<FirebaseTest> {
+class FirebaseTestState extends State<FirebaseTest> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _ageController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
@@ -35,14 +35,14 @@ class _FirebaseTestState extends State<FirebaseTest> {
         _isLoading = true;
       });
 
-      print('Adding new data: name=$name, age=$age, email=$email');      // Log before adding new data
+      //print('Adding new data: name=$name, age=$age, email=$email');      // Log before adding new data
 
       // Retrieve the current data to append new data to it
       await _loadData();
       final newUser = {'name': name, 'age': age, 'email': email};
       _userData.add(newUser);
 
-      print('Data to save: $_userData');      // Log the data before saving it
+      //print('Data to save: $_userData');      // Log the data before saving it
 
       // Save updated data
       await _saveData();
@@ -62,11 +62,11 @@ class _FirebaseTestState extends State<FirebaseTest> {
     final prefs = await SharedPreferences.getInstance();
     final userDataJson = jsonEncode(_userData);
 
-    print('Saving data to SharedPreferences: $userDataJson');    // Log before saving
+    //print('Saving data to SharedPreferences: $userDataJson');    // Log before saving
 
     await prefs.setString('userData', userDataJson); //Stores JSON data under 'userData' section
 
-    print('Data saved successfully');    // Log after saving
+    //print('Data saved successfully');    // Log after saving
   }
 
   //Loads all data from local storage
@@ -74,13 +74,13 @@ class _FirebaseTestState extends State<FirebaseTest> {
     final prefs = await SharedPreferences.getInstance();
     final userDataJson = prefs.getString('userData');
     if (userDataJson != null) {
-      print('Data loaded from SharedPreferences: $userDataJson');      // Log when data is loaded successfully
+      //print('Data loaded from SharedPreferences: $userDataJson');      // Log when data is loaded successfully
 
       setState(() {
         _userData = List<Map<String, dynamic>>.from(jsonDecode(userDataJson));
       });
     } else {
-      print('No data found in SharedPreferences');      // Log if no data is found in SharedPreferences (will happen after each flutter run)
+      //print('No data found in SharedPreferences');      // Log if no data is found in SharedPreferences (will happen after each flutter run)
 
       setState(() {
         _userData = [];
@@ -154,8 +154,8 @@ class _FirebaseTestState extends State<FirebaseTest> {
                           itemBuilder: (context, index) {
                             final user = _userData[index];
 
-                            print( //Log the user data that is being displayed
-                                'Displaying user data: ${user['name']}, ${user['age']}, ${user['email']}'); 
+                            //print( //Log the user data that is being displayed
+                                //'Displaying user data: ${user['name']}, ${user['age']}, ${user['email']}'); 
 
                             return Card(
                               margin: const EdgeInsets.symmetric(vertical: 8.0),

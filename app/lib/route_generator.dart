@@ -1,5 +1,4 @@
 import 'package:app/screens/screens.dart';
-import 'package:app/screens/word_selection.dart';
 import 'package:flutter/material.dart';
 
 //https://www.youtube.com/watch?v=nyvwx7o277U
@@ -50,7 +49,7 @@ class RouteGenerator {
       case '/selectStudy':
         return MaterialPageRoute(builder: (_) => const StudySetSelection());
       case '/firebaseTest':
-        return MaterialPageRoute(builder: (_) => FirebaseTest());
+        return MaterialPageRoute(builder: (_) => const FirebaseTest());
       default:
         return _errorRoute();
     }
