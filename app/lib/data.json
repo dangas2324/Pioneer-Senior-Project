@@ -1,0 +1,70 @@
+{
+  "languages": [
+    {
+      "name": "Spanish",
+      "studies": [
+        {
+          "title": "Basic Vocabulary"
+        },
+        {
+          "title": "Greetings"
+        }
+      ],
+      "words": [
+        {
+          "text": "hello",
+          "translation": "hola"
+        },
+        {
+          "text": "thank you",
+          "translation": "gracias"
+        },
+        {
+          "text": "goodbye",
+          "translation": "adiós"
+        },
+        {
+          "text": "good morning",
+          "translation": "buenos días"
+        },
+        {
+          "text": "good night",
+          "translation": "buenas noches"
+        }
+      ]
+    },
+    {
+      "name": "French",
+      "studies": [
+        {
+          "title": "Basic Vocabulary"
+        },
+        {
+          "title": "Food"
+        }
+      ],
+      "words": [
+        {
+          "text": "hello",
+          "translation": "bonjour"
+        },
+        {
+          "text": "thank you",
+          "translation": "merci"
+        },
+        {
+          "text": "goodbye",
+          "translation": "au revoir"
+        },
+        {
+          "text": "apple",
+          "translation": "pomme"
+        },
+        {
+          "text": "bread",
+          "translation": "pain"
+        }
+      ]
+    }
+  ]
+}

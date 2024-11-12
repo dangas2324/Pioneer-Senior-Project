@@ -1,8 +1,6 @@
 import 'package:app/screens/screens.dart';
 import 'package:flutter/material.dart';
 
-//https://www.youtube.com/watch?v=nyvwx7o277U
-
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     final args = settings.arguments;
@@ -11,47 +9,71 @@ class RouteGenerator {
       case '/':
         return MaterialPageRoute(builder: (_) => const StartPage());
       case '/selectLanguages':
-        return MaterialPageRoute(builder: (_) => const LanguageSelection());
+        return MaterialPageRoute(builder: (_) => const LanguageSelection()); // LanguageSelection Route
       case '/login':
         return MaterialPageRoute(builder: (_) => const LoginPage());
 
+      // For the /language route, passing the language name to LanguageOptions
       case '/language':
-        if (args is String) {
+        if (args is String) { // The language name is passed here
           return MaterialPageRoute(
-              builder: (_) => LanguageOptions(
-                    key: UniqueKey(),
-                    data: args,
-                  ));
+            builder: (_) => LanguageOptions(
+              languageName: args, // Using the passed language name
+            ),
+          );
         }
         return _errorRoute();
+
+      case '/selectStudy':
+        if (args is List<dynamic>) { // Expecting the studies list as arguments
+          return MaterialPageRoute(
+            builder: (_) => StudySetSelection(
+              studies: args, // Passing the studies list to the StudySetSelection page
+            ),
+          );
+        }
+        return _errorRoute();      
+      
       case '/words':
-        return MaterialPageRoute(builder: (_) => const WordSelection());
+        if (args is List<dynamic>) { // Expecting the studies list as arguments
+          return MaterialPageRoute(
+            builder: (_) => WordSelection(
+              words: args, // Passing the studies list to the StudySetSelection page
+            ),
+          );
+        }
+        return _errorRoute();      
+
+      
       case '/view':
         if (args is ViewWordArguments) {
           return MaterialPageRoute(
-              builder: (_) => ViewWord(
-                    key: UniqueKey(),
-                    ipaWord: args.ipaWord,
-                    tradeWord: args.tradeWord,
-                  ));
+            builder: (_) => ViewWord(
+              key: UniqueKey(),
+              ipaWord: args.ipaWord,
+              tradeWord: args.tradeWord,
+            ),
+          );
         }
         return _errorRoute();
+      
       case '/edit':
         if (args is EditWordArguments) {
           return MaterialPageRoute(
-              builder: (_) => AddEditWord(
-                    key: UniqueKey(),
-                    ipaWord: args.ipaWord,
-                    tradeWord: args.tradeWord,
-                  ));
+            builder: (_) => AddEditWord(
+              key: UniqueKey(),
+              ipaWord: args.ipaWord,
+              tradeWord: args.tradeWord,
+            ),
+          );
         }
         return _errorRoute();
-      case '/selectStudy':
-        return MaterialPageRoute(builder: (_) => const StudySetSelection());
+
+
       case '/firebaseTest':
         return MaterialPageRoute(builder: (_) => const FirebaseTest());
       default:
-        return _errorRoute();
+        return _errorRoute(); // Default error route
     }
   }
 

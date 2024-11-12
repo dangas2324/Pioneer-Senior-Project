@@ -6,16 +6,18 @@ final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
     GlobalKey<ScaffoldMessengerState>();
 
 class StudySetSelection extends StatelessWidget {
-  const StudySetSelection({super.key});
+  final List<dynamic> studies; // Expecting a list of studies
+
+  const StudySetSelection({super.key, required this.studies});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.white), // Back icon
+          icon: const Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () {
-            Navigator.pop(context); // Navigate back when pressed
+            Navigator.pop(context);
           },
         ),
         title: const Text(
@@ -46,26 +48,18 @@ class StudySetSelection extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 20),
-            // Study Set Buttons
+            // Study Set Buttons based on studies passed
             Expanded(
               child: ListView(
-                children: const [
-                  StudySetButton(studyName: 'Math 101'),
-                  StudySetButton(studyName: 'Biology Basics'),
-                  StudySetButton(studyName: 'World History'),
-                  StudySetButton(studyName: 'Physics Principles'),
-                  StudySetButton(studyName: 'Chemistry Concepts'),
-                  StudySetButton(studyName: 'Programming Fundamentals'),
-                  StudySetButton(studyName: 'Art History'),
-                  StudySetButton(studyName: 'Business Management'),
-                  // Add more study sets as needed
-                ],
+                children: studies.map<Widget>((study) {
+                  return StudySetButton(studyName: study['title']);
+                }).toList(),
               ),
             ),
           ],
         ),
       ),
-      bottomNavigationBar: const BottomSelect(),      
+      bottomNavigationBar: const BottomSelect(),
     );
   }
 }
