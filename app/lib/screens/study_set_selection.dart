@@ -1,4 +1,5 @@
 import 'package:app/screens/screens.dart';
+import 'package:app/widgets/Menu/bottom_select.dart';
 import 'package:flutter/material.dart';
 
 final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
@@ -64,17 +65,7 @@ class StudySetSelection extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: const BottomAppBar(
-        color: Color(0xFF07394B),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Icon(Icons.search, color: Colors.white),
-            Icon(Icons.home, color: Colors.white),
-            Icon(Icons.add, color: Color(0xFF6FED6D)),
-          ],
-        ),
-      ),
+      bottomNavigationBar: const BottomSelect(),      
     );
   }
 }

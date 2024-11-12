@@ -1,3 +1,4 @@
+import 'package:app/widgets/Menu/bottom_select.dart';
 import 'package:flutter/material.dart';
 import 'package:app/widgets/Menu/menu.dart';
 
@@ -7,13 +8,7 @@ class StartPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final List<String> languages = [
-      'Any Language',
-      'Spanish',
-      'French',
-      'German',
-      'Chinese',
-      'Japanese',
-      'French'
+      'Spanish'
     ];
     //Change this to list of languages from Firestore
 
@@ -66,6 +61,14 @@ class StartPage extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 40),
+            const Text(
+              'Most Recent',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 20),
             Expanded(
               child: ListView(
                 children: [
@@ -105,6 +108,7 @@ class StartPage extends StatelessWidget {
           ],
         ),
       ),
+      bottomNavigationBar: const BottomSelect(),
     );
   }
 }

@@ -1,3 +1,4 @@
+import 'package:app/widgets/Menu/bottom_select.dart';
 import 'package:flutter/material.dart';
 import 'package:app/widgets/Menu/menu.dart';
 
@@ -118,6 +119,7 @@ class LanguageOptions extends StatelessWidget {
           ],
         ),
       ),
+      bottomNavigationBar: const BottomSelect(),
     );
   }
 }
