@@ -52,7 +52,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyCt7Hs3eL_n0dsevnZBcqWiOianDpYMovs',
-    appId: '1:996789373458:android:0a255f47bac03e8e6466cb',
+    appId: '1:996789373458:android:0dc7eb24e1c5819e6466cb',
     messagingSenderId: '996789373458',
     projectId: 'pioneerbible-3e556',
     storageBucket: 'pioneerbible-3e556.firebasestorage.app',
@@ -60,11 +60,11 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyATxsrPB03TPMVtY5-VippHCedTGV-O2Dw',
-    appId: '1:996789373458:ios:b608ffeffc72bae86466cb',
+    appId: '1:996789373458:ios:18beb506a6cddb456466cb',
     messagingSenderId: '996789373458',
     projectId: 'pioneerbible-3e556',
     storageBucket: 'pioneerbible-3e556.firebasestorage.app',
-    iosBundleId: 'com.example.app',
+    iosBundleId: 'com.example.flutterSeniorProjectApp',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
@@ -85,4 +85,5 @@ class DefaultFirebaseOptions {
     storageBucket: 'pioneerbible-3e556.firebasestorage.app',
     measurementId: 'G-QCMSJ8Z2LM',
   );
+
 }
