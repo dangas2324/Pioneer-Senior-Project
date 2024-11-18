@@ -8,7 +8,7 @@ class BottomSelect extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BottomAppBar(
-      color: Color(0xFF07394B),
+      color: const Color(0xFF07394B),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
