@@ -12,7 +12,9 @@ class Menu extends StatelessWidget {
       child: GestureDetector(
         onTap: () => showPopover(
           context: context,
-          bodyBuilder: (context) => const MenuItems(),
+          bodyBuilder: (context) => const SingleChildScrollView(
+            child: MenuItems(),
+          ),
           direction: PopoverDirection.left, // Adjust the direction to pop out to the left
           width: 200, // Adjust the width as needed
           height: 500, // Adjust the height as needed
