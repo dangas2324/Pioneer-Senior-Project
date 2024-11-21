@@ -1,48 +1,56 @@
-import 'package:app/screens/start_page.dart';
-import 'package:app/screens/create_account_page.dart'; // Import the CreateAccountPage
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:app/screens/start_page.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class CreateAccountPage extends StatefulWidget {
+  const CreateAccountPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<CreateAccountPage> createState() => _CreateAccountPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _CreateAccountPageState extends State<CreateAccountPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  void _signInWithEmailAndPassword() async {
+  void _createAccount() async {
+    if (_passwordController.text.trim() !=
+        _confirmPasswordController.text.trim()) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Passwords do not match.')),
+      );
+      return;
+    }
+
     try {
       final UserCredential userCredential =
-          await _auth.signInWithEmailAndPassword(
+          await _auth.createUserWithEmailAndPassword(
         email: _emailController.text.trim(),
         password: _passwordController.text.trim(),
       );
 
-      // Only navigate if the widget is still mounted to avoid errors
       if (mounted) {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => const StartPage()),
         );
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Welcome, ${userCredential.user?.email}!')),
+          SnackBar(
+              content: Text('Account created for ${userCredential.user?.email}!')),
         );
       }
     } on FirebaseAuthException catch (e) {
       String errorMessage = 'An error occurred.';
-      if (e.code == 'user-not-found') {
-        errorMessage = 'No user found for that email.';
-      } else if (e.code == 'wrong-password') {
-        errorMessage = 'Wrong password provided.';
+      if (e.code == 'email-already-in-use') {
+        errorMessage = 'The email is already in use.';
+      } else if (e.code == 'weak-password') {
+        errorMessage = 'The password is too weak.';
       }
 
-      // Only show error if the widget is still mounted
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(errorMessage)),
@@ -62,7 +70,7 @@ class _LoginPageState extends State<LoginPage> {
           },
         ),
         title: const Text(
-          'Login',
+          'Create Account',
           style: TextStyle(color: Colors.white),
         ),
         backgroundColor: const Color(0xFF07394B),
@@ -103,28 +111,29 @@ class _LoginPageState extends State<LoginPage> {
               ),
               obscureText: true,
             ),
-            const SizedBox(height: 8.0),
+            const SizedBox(height: 16.0),
 
-            // Forgot Password Link
-            Align(
-              alignment: Alignment.centerRight,
-              child: TextButton(
-                onPressed: () {
-                  // This will link to a "Forgot Password" screen in the future.
-                },
-                child: const Text(
-                  'Forgot Password?',
-                  style: TextStyle(color: Colors.lightBlue),
+            // Confirm Password Field
+            TextField(
+              controller: _confirmPasswordController,
+              decoration: InputDecoration(
+                hintText: 'Confirm Password',
+                filled: true,
+                fillColor: Colors.grey[200],
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8.0),
+                  borderSide: BorderSide.none,
                 ),
               ),
+              obscureText: true,
             ),
             const SizedBox(height: 16.0),
 
-            // Sign in Button
+            // Create Account Button
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: _signInWithEmailAndPassword,
+                onPressed: _createAccount,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF074A5F),
                   shape: RoundedRectangleBorder(
@@ -132,32 +141,10 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
                 child: const Text(
-                  'Sign In',
+                  'Create Account',
                   style: TextStyle(color: Colors.white),
                 ),
               ),
-            ),
-            const SizedBox(height: 16.0),
-
-            // Create Account Link
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text("Don't have an account?"),
-                TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const CreateAccountPage()),
-                    );
-                  },
-                  child: const Text(
-                    'Create Account',
-                    style: TextStyle(color: Colors.lightBlue),
-                  ),
-                ),
-              ],
             ),
           ],
         ),

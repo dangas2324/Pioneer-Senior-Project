@@ -14,7 +14,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => const LanguageSelection());
       case '/login':
         return MaterialPageRoute(builder: (_) => const LoginPage());
-
+      case '/createAccount':
+        return MaterialPageRoute(builder: (_) => const CreateAccountPage());
       case '/language':
         if (args is String) {
           return MaterialPageRoute(
