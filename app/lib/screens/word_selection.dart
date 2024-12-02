@@ -6,6 +6,27 @@ import 'package:app/screens/screens.dart';
 class WordSelection extends StatelessWidget {
   const WordSelection({super.key});
 
+  Future<void> _syncWords() async {
+    try {
+      // Get all unsynced words
+      QuerySnapshot unsyncedWords = await FirebaseFirestore.instance
+          .collection('words')
+          .where('isSynced', isEqualTo: false)
+          .get();
+
+      // Update each word to be synced
+      WriteBatch batch = FirebaseFirestore.instance.batch();
+      
+      for (var doc in unsyncedWords.docs) {
+        batch.update(doc.reference, {'isSynced': true});
+      }
+
+      await batch.commit();
+    } catch (e) {
+      print('Error syncing words: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,7 +40,13 @@ class WordSelection extends StatelessWidget {
           style: TextStyle(color: Colors.white),
         ),
         backgroundColor: const Color(0xFF07394B),
-        actions: const [Menu()],
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.sync, color: Colors.white),
+            onPressed: _syncWords,
+          ),
+          const Menu(),
+        ],
       ),
       backgroundColor: Colors.white,
       body: Padding(
@@ -45,7 +72,26 @@ class WordSelection extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 20),
-            // Word List from Firestore
+            // Sync Status
+            StreamBuilder<QuerySnapshot>(
+              stream: FirebaseFirestore.instance
+                  .collection('words')
+                  .where('isSynced', isEqualTo: false)
+                  .snapshots(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData && snapshot.data!.docs.isNotEmpty) {
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 8.0),
+                    child: Text(
+                      '${snapshot.data!.docs.length} words need to be synced',
+                      style: const TextStyle(color: Colors.orange),
+                    ),
+                  );
+                }
+                return const SizedBox.shrink();
+              },
+            ),
+            // Word List
             Expanded(
               child: StreamBuilder<QuerySnapshot>(
                 stream: FirebaseFirestore.instance
@@ -75,6 +121,7 @@ class WordSelection extends StatelessWidget {
                         id: doc.id,
                         ipaWord: data['ipaWord'] ?? '',
                         translatedWord: data['tradeWord'] ?? '',
+                        isSynced: data['isSynced'] ?? false,
                       );
                     },
                   );
@@ -85,18 +132,6 @@ class WordSelection extends StatelessWidget {
         ),
       ),
       bottomNavigationBar: const BottomSelect(),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const AddEditWord(),
-            ),
-          );
-        },
-        backgroundColor: const Color(0xFF006D77),
-        child: const Icon(Icons.add, color: Colors.white),
-      ),
     );
   }
 }
@@ -105,12 +140,14 @@ class WordButton extends StatelessWidget {
   final String id;
   final String ipaWord;
   final String translatedWord;
+  final bool isSynced;
 
   const WordButton({
     super.key,
     required this.id,
     required this.ipaWord,
     required this.translatedWord,
+    required this.isSynced,
   });
 
   @override
@@ -119,15 +156,14 @@ class WordButton extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: ElevatedButton(
         onPressed: () {
-          Navigator.push(
+          Navigator.pushNamed(
             context,
-            MaterialPageRoute(
-              builder: (context) => ViewWord(
-                id: id,
-                ipaWord: ipaWord,
-                tradeWord: translatedWord,
-              ),
-            ),
+            '/view',
+            arguments: {
+              'id': id,
+              'ipaWord': ipaWord,
+              'tradeWord': translatedWord,
+            },
           );
         },
         style: ElevatedButton.styleFrom(
@@ -146,12 +182,25 @@ class WordButton extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    ipaWord,
-                    style: const TextStyle(
-                      fontSize: 18,
-                      color: Colors.white,
-                    ),
+                  Row(
+                    children: [
+                      Text(
+                        ipaWord,
+                        style: const TextStyle(
+                          fontSize: 18,
+                          color: Colors.white,
+                        ),
+                      ),
+                      if (!isSynced) 
+                        const Padding(
+                          padding: EdgeInsets.only(left: 8.0),
+                          child: Icon(
+                            Icons.sync_problem,
+                            color: Colors.orange,
+                            size: 16,
+                          ),
+                        ),
+                    ],
                   ),
                   Text(
                     translatedWord,
@@ -174,15 +223,14 @@ class WordButton extends StatelessWidget {
                 IconButton(
                   icon: const Icon(Icons.edit, color: Color(0xFFF9BAA5)),
                   onPressed: () {
-                    Navigator.push(
+                    Navigator.pushNamed(
                       context,
-                      MaterialPageRoute(
-                        builder: (context) => AddEditWord(
-                          id: id,
-                          initialIpaWord: ipaWord,
-                          initialTradeWord: translatedWord,
-                        ),
-                      ),
+                      '/edit',
+                      arguments: {
+                        'id': id,
+                        'ipaWord': ipaWord,
+                        'tradeWord': translatedWord,
+                      },
                     );
                   },
                 ),
