@@ -31,9 +31,11 @@ class BottomSelect extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.add, color: Color(0xFF6FED6D)),
             onPressed: () {
-              Navigator.of(context).pushNamed(
-                '/edit',
-                arguments: EditWordArguments('',''),
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const AddEditWord(),
+                ),
               );
             },
           ),

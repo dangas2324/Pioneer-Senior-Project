@@ -1,21 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:app/widgets/Menu/bottom_select.dart';
 import 'package:app/screens/screens.dart';
 
 class WordSelection extends StatelessWidget {
-  final List<dynamic> words; // Expecting a list of words
-
-  const WordSelection({super.key, required this.words});
+  const WordSelection({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.white), // Back icon
-          onPressed: () {
-            Navigator.pop(context); // Navigate back when pressed
-          },
+          icon: const Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () => Navigator.pop(context),
         ),
         title: const Text(
           'Words',
@@ -36,24 +33,50 @@ class WordSelection extends StatelessWidget {
                 color: Colors.grey[300],
                 borderRadius: BorderRadius.circular(8.0),
               ),
-              child: const TextField(
-                decoration: InputDecoration(
+              child: TextField(
+                decoration: const InputDecoration(
                   hintText: 'Search words...',
                   border: InputBorder.none,
                   prefixIcon: Icon(Icons.search),
                 ),
+                onChanged: (value) {
+                  // TODO: Implement search functionality
+                },
               ),
             ),
             const SizedBox(height: 20),
-            // Word Buttons
+            // Word List from Firestore
             Expanded(
-              child: ListView.builder(
-                itemCount: words.length, // The number of words to display
-                itemBuilder: (context, index) {
-                  var word = words[index];
-                  return WordButton(
-                    ipaWord: word['text'], // The word itself (IPA word)
-                    translatedWord: word['translation'], // The translation
+              child: StreamBuilder<QuerySnapshot>(
+                stream: FirebaseFirestore.instance
+                    .collection('words')
+                    .orderBy('createdAt', descending: true)
+                    .snapshots(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasError) {
+                    return Center(child: Text('Error: ${snapshot.error}'));
+                  }
+
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+
+                  if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                    return const Center(child: Text('No words found'));
+                  }
+
+                  return ListView.builder(
+                    itemCount: snapshot.data!.docs.length,
+                    itemBuilder: (context, index) {
+                      final doc = snapshot.data!.docs[index];
+                      final data = doc.data() as Map<String, dynamic>;
+                      
+                      return WordButton(
+                        id: doc.id,
+                        ipaWord: data['ipaWord'] ?? '',
+                        translatedWord: data['tradeWord'] ?? '',
+                      );
+                    },
                   );
                 },
               ),
@@ -62,16 +85,33 @@ class WordSelection extends StatelessWidget {
         ),
       ),
       bottomNavigationBar: const BottomSelect(),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const AddEditWord(),
+            ),
+          );
+        },
+        backgroundColor: const Color(0xFF006D77),
+        child: const Icon(Icons.add, color: Colors.white),
+      ),
     );
   }
 }
 
 class WordButton extends StatelessWidget {
+  final String id;
   final String ipaWord;
   final String translatedWord;
 
-  const WordButton(
-      {super.key, required this.ipaWord, required this.translatedWord});
+  const WordButton({
+    super.key,
+    required this.id,
+    required this.ipaWord,
+    required this.translatedWord,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -79,14 +119,20 @@ class WordButton extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: ElevatedButton(
         onPressed: () {
-          Navigator.of(context).pushNamed(
-            '/view',
-            arguments: ViewWordArguments(ipaWord, translatedWord),
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ViewWord(
+                id: id,
+                ipaWord: ipaWord,
+                tradeWord: translatedWord,
+              ),
+            ),
           );
         },
         style: ElevatedButton.styleFrom(
-          backgroundColor: const Color(0xFF095A6D), // Background color
-          foregroundColor: Colors.white, // Text color
+          backgroundColor: const Color(0xFF095A6D),
+          foregroundColor: Colors.white,
           padding: const EdgeInsets.symmetric(vertical: 16.0),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8.0),
@@ -95,10 +141,8 @@ class WordButton extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            // Add padding to the left side of the text
             Padding(
-              padding: const EdgeInsets.only(
-                  left: 16.0), // Adds space from the left edge
+              padding: const EdgeInsets.only(left: 16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -113,26 +157,32 @@ class WordButton extends StatelessWidget {
                     translatedWord,
                     style: const TextStyle(
                       fontSize: 14,
-                      color: Colors
-                          .white70, // Smaller and lighter text for translation
+                      color: Colors.white70,
                     ),
                   ),
                 ],
               ),
             ),
-            // Icons for audio and edit
             Row(
               children: [
                 IconButton(
                   icon: const Icon(Icons.volume_up, color: Colors.white),
-                  onPressed: () {}, // Audio play button
+                  onPressed: () {
+                    // TODO: Implement audio functionality
+                  },
                 ),
                 IconButton(
                   icon: const Icon(Icons.edit, color: Color(0xFFF9BAA5)),
                   onPressed: () {
-                    Navigator.of(context).pushNamed(
-                      '/edit',
-                      arguments: EditWordArguments(ipaWord, translatedWord),
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => AddEditWord(
+                          id: id,
+                          initialIpaWord: ipaWord,
+                          initialTradeWord: translatedWord,
+                        ),
+                      ),
                     );
                   },
                 ),

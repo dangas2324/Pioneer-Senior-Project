@@ -8,72 +8,72 @@ class RouteGenerator {
     switch (settings.name) {
       case '/':
         return MaterialPageRoute(builder: (_) => const StartPage());
+        
       case '/selectLanguages':
-        return MaterialPageRoute(builder: (_) => const LanguageSelection()); // LanguageSelection Route
+        return MaterialPageRoute(builder: (_) => const LanguageSelection());
+        
       case '/login':
         return MaterialPageRoute(builder: (_) => const LoginPage());
 
-      // For the /language route, passing the language name to LanguageOptions
       case '/language':
-        if (args is String) { // The language name is passed here
+        if (args is String) {
           return MaterialPageRoute(
             builder: (_) => LanguageOptions(
-              languageName: args, // Using the passed language name
+              languageName: args,
             ),
           );
         }
         return _errorRoute();
 
       case '/selectStudy':
-        if (args is List<dynamic>) { // Expecting the studies list as arguments
+        if (args is List<dynamic>) {
           return MaterialPageRoute(
             builder: (_) => StudySetSelection(
-              studies: args, // Passing the studies list to the StudySetSelection page
+              studies: args,
             ),
           );
         }
         return _errorRoute();      
       
       case '/words':
-        if (args is List<dynamic>) { // Expecting the studies list as arguments
-          return MaterialPageRoute(
-            builder: (_) => WordSelection(
-              words: args, // Passing the studies list to the StudySetSelection page
-            ),
-          );
-        }
-        return _errorRoute();      
+        // No longer needs arguments since it gets data from Firestore
+        return MaterialPageRoute(
+          builder: (_) => const WordSelection(),
+        );
 
-      
       case '/view':
-        if (args is ViewWordArguments) {
+        if (args is Map<String, dynamic>) {
           return MaterialPageRoute(
             builder: (_) => ViewWord(
               key: UniqueKey(),
-              ipaWord: args.ipaWord,
-              tradeWord: args.tradeWord,
+              id: args['id'],
+              ipaWord: args['ipaWord'],
+              tradeWord: args['tradeWord'],
             ),
           );
         }
         return _errorRoute();
       
       case '/edit':
-        if (args is EditWordArguments) {
+        if (args is Map<String, dynamic>) {
           return MaterialPageRoute(
             builder: (_) => AddEditWord(
               key: UniqueKey(),
-              ipaWord: args.ipaWord,
-              tradeWord: args.tradeWord,
+              id: args['id'],
+              initialIpaWord: args['ipaWord'],
+              initialTradeWord: args['tradeWord'],
             ),
           );
         }
-        return _errorRoute();
-
+        return MaterialPageRoute(
+          builder: (_) => const AddEditWord(), // For new words
+        );
 
       case '/firebaseTest':
         return MaterialPageRoute(builder: (_) => const FirebaseTest());
+        
       default:
-        return _errorRoute(); // Default error route
+        return _errorRoute();
     }
   }
 

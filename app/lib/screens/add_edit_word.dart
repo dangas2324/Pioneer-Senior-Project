@@ -1,240 +1,136 @@
-import 'package:app/screens/screens.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-class EditWordArguments {
-  final String ipaWord;
-  final String tradeWord;
-
-  EditWordArguments(this.ipaWord, this.tradeWord);
-}
-
-class AddEditWord extends StatelessWidget {
-  final String ipaWord;
-  final String tradeWord;
+class AddEditWord extends StatefulWidget {
+  final String? id;
+  final String? initialIpaWord;
+  final String? initialTradeWord;
 
   const AddEditWord({
-    required Key key,
-    required this.ipaWord,
-    required this.tradeWord,
+    Key? key,
+    this.id,
+    this.initialIpaWord,
+    this.initialTradeWord,
   }) : super(key: key);
+
+  @override
+  State<AddEditWord> createState() => _AddEditWordState();
+}
+
+class _AddEditWordState extends State<AddEditWord> {
+  final _formKey = GlobalKey<FormState>();
+  late TextEditingController _ipaController;
+  late TextEditingController _tradeController;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  @override
+  void initState() {
+    super.initState();
+    _ipaController = TextEditingController(text: widget.initialIpaWord);
+    _tradeController = TextEditingController(text: widget.initialTradeWord);
+  }
+
+  @override
+  void dispose() {
+    _ipaController.dispose();
+    _tradeController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _saveWord() async {
+    if (_formKey.currentState!.validate()) {
+      try {
+        final wordData = {
+          'ipaWord': _ipaController.text,
+          'tradeWord': _tradeController.text,
+          'createdAt': FieldValue.serverTimestamp(),
+          'isSynced': true,
+        };
+
+        if (widget.id == null) {
+          // Adding new word - Firestore will generate the ID
+          await _firestore.collection('words').add(wordData);
+        } else {
+          // Updating existing word
+          await _firestore.collection('words').doc(widget.id).update(wordData);
+        }
+        
+        if (mounted) {
+          Navigator.pop(context);
+        }
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error saving word: $e')),
+        );
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.white), // Back icon
-          onPressed: () {
-            Navigator.pop(context); // Navigate back when pressed
-          },
+          icon: const Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () => Navigator.pop(context),
         ),
-        title: const Text(
-          'Add or Edit Word',
-          style: TextStyle(color: Colors.white),
+        title: Text(
+          widget.id == null ? 'Add Word' : 'Edit Word',
+          style: const TextStyle(color: Colors.white),
         ),
         backgroundColor: const Color(0xFF07394B),
-        actions: const [Menu()],
       ),
-      backgroundColor: Colors.white,
       body: SafeArea(
-        child: Column(
-          children: [
-            Expanded(
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Vernacular/IPA Input
-                    const Text(
-                      'Vernacular/IPA',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    TextField(
-                      controller: TextEditingController(text: ipaWord),
-                      decoration: InputDecoration(
-                        hintText: 'Type the word here',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        contentPadding: const EdgeInsets.symmetric(
-                          horizontal: 12,
-                          vertical: 16,
-                        ),
-                      ),
-                    ),
-
-                    const SizedBox(height: 20),
-
-                    // Trade Language Input
-                    const Text(
-                      'Trade Language',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    TextField(
-                      controller: TextEditingController(text: tradeWord),
-                      decoration: InputDecoration(
-                        hintText: 'Type the translated word here',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        contentPadding: const EdgeInsets.symmetric(
-                          horizontal: 12,
-                          vertical: 16,
-                        ),
-                      ),
-                    ),
-
-                    const SizedBox(height: 20),
-
-                    // Tags Section
-                    const Text(
-                      'Tags',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    Wrap(
-                      spacing: 8,
-                      runSpacing: 8,
-                      children: [
-                        buildTag('Greeting'),
-                        buildTag('Casual'),
-                        buildTag('Food'),
-                        buildTag('...'),
-                        buildAddTagButton(),
-                      ],
-                    ),
-
-                    const SizedBox(height: 20),
-
-                    // Media Section
-                    const Text(
-                      'Media',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    TextField(
-                      decoration: InputDecoration(
-                        hintText: 'Hinted search text',
-                        prefixIcon: const Icon(Icons.menu),
-                        suffixIcon: const Icon(Icons.search),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-                    GridView.count(
-                      crossAxisCount: 3,
-                      crossAxisSpacing: 12,
-                      mainAxisSpacing: 12,
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      children: [
-                        _buildMediaBox(Icons.image),
-                        _buildMediaBox(Icons.headphones),
-                        // Add more media boxes as needed
-                      ],
-                    ),
-                  ],
+        child: Form(
+          key: _formKey,
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                TextFormField(
+                  controller: _ipaController,
+                  decoration: const InputDecoration(
+                    labelText: 'Vernacular/IPA',
+                    border: OutlineInputBorder(),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter the IPA word';
+                    }
+                    return null;
+                  },
                 ),
-              ),
-            ),
-            // Bottom Buttons Section
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF006D77),
-                        foregroundColor: Colors.white,
-                        padding: const EdgeInsets.symmetric(vertical: 16),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                      ),
-                      child: const Text('Import Media'),
-                    ),
+                const SizedBox(height: 16),
+                TextFormField(
+                  controller: _tradeController,
+                  decoration: const InputDecoration(
+                    labelText: 'Trade Language',
+                    border: OutlineInputBorder(),
                   ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF006D77),
-                        foregroundColor: Colors.white,
-                        padding: const EdgeInsets.symmetric(vertical: 16),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                      ),
-                      child: const Text('Record Media'),
-                    ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter the trade word';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 24),
+                ElevatedButton(
+                  onPressed: _saveWord,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF006D77),
+                    padding: const EdgeInsets.symmetric(vertical: 16),
                   ),
-                ],
-              ),
+                  child: const Text(
+                    'Save',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
-      ),
-    );
-  }
-
-  Widget buildTag(String label) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-      decoration: BoxDecoration(
-        color: Colors.grey[200],
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.grey),
-      ),
-      child: Text(label),
-    );
-  }
-
-  Widget buildAddTagButton() {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-      decoration: BoxDecoration(
-        color: const Color(0xFF006D77),
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: const Text(
-        'add Tag',
-        style: TextStyle(color: Colors.white),
-      ),
-    );
-  }
-
-  Widget _buildMediaBox(IconData icon) {
-    return Container(
-      width: 80,
-      height: 80,
-      decoration: BoxDecoration(
-        color: const Color(0xFF006D77),
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Icon(
-        icon,
-        color: Colors.white,
-        size: 32,
       ),
     );
   }
