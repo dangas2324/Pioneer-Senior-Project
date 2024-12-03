@@ -8,10 +8,10 @@ class LanguageSelection extends StatefulWidget {
   const LanguageSelection({super.key});
 
   @override
-  _LanguageSelectionState createState() => _LanguageSelectionState();
+  LanguageSelectionState createState() => LanguageSelectionState();
 }
 
-class _LanguageSelectionState extends State<LanguageSelection> {
+class LanguageSelectionState extends State<LanguageSelection> {
   List<String> languages = []; // List to hold language names
 
   @override

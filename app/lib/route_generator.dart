@@ -9,13 +9,16 @@ class RouteGenerator {
       case '/':
         return MaterialPageRoute(builder: (_) => const StartPage());
       case '/selectLanguages':
-        return MaterialPageRoute(builder: (_) => const LanguageSelection()); // LanguageSelection Route
+        return MaterialPageRoute(
+            builder: (_) =>
+                const LanguageSelection()); // LanguageSelection Route
       case '/login':
         return MaterialPageRoute(builder: (_) => const LoginPage());
-
-      // For the /language route, passing the language name to LanguageOptions
+      case '/createAccount':
+        return MaterialPageRoute(builder: (_) => const CreateAccountPage());
       case '/language':
-        if (args is String) { // The language name is passed here
+        if (args is String) {
+          // The language name is passed here
           return MaterialPageRoute(
             builder: (_) => LanguageOptions(
               languageName: args, // Using the passed language name
@@ -25,26 +28,29 @@ class RouteGenerator {
         return _errorRoute();
 
       case '/selectStudy':
-        if (args is List<dynamic>) { // Expecting the studies list as arguments
+        if (args is List<dynamic>) {
+          // Expecting the studies list as arguments
           return MaterialPageRoute(
             builder: (_) => StudySetSelection(
-              studies: args, // Passing the studies list to the StudySetSelection page
+              studies:
+                  args, // Passing the studies list to the StudySetSelection page
             ),
           );
         }
-        return _errorRoute();      
-      
+        return _errorRoute();
+
       case '/words':
-        if (args is List<dynamic>) { // Expecting the studies list as arguments
+        if (args is List<dynamic>) {
+          // Expecting the studies list as arguments
           return MaterialPageRoute(
             builder: (_) => WordSelection(
-              words: args, // Passing the studies list to the StudySetSelection page
+              words:
+                  args, // Passing the studies list to the StudySetSelection page
             ),
           );
         }
-        return _errorRoute();      
+        return _errorRoute();
 
-      
       case '/view':
         if (args is ViewWordArguments) {
           return MaterialPageRoute(
@@ -56,7 +62,7 @@ class RouteGenerator {
           );
         }
         return _errorRoute();
-      
+
       case '/edit':
         if (args is EditWordArguments) {
           return MaterialPageRoute(
@@ -68,7 +74,6 @@ class RouteGenerator {
           );
         }
         return _errorRoute();
-
 
       case '/firebaseTest':
         return MaterialPageRoute(builder: (_) => const FirebaseTest());

@@ -10,10 +10,10 @@ class LanguageOptions extends StatefulWidget {
   const LanguageOptions({super.key, required this.languageName});
 
   @override
-  _LanguageOptionsState createState() => _LanguageOptionsState();
+  LanguageOptionsState createState() => LanguageOptionsState();
 }
 
-class _LanguageOptionsState extends State<LanguageOptions> {
+class LanguageOptionsState extends State<LanguageOptions> {
   late Map<String, dynamic> languageData;
 
   @override
