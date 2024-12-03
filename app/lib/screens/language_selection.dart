@@ -1,22 +1,39 @@
+import 'dart:convert';
+import 'package:app/widgets/Menu/bottom_select.dart';
 import 'package:flutter/material.dart';
 import 'package:app/widgets/Menu/menu.dart';
+import 'package:flutter/services.dart' show rootBundle; 
 
-class LanguageSelection extends StatelessWidget {
+class LanguageSelection extends StatefulWidget {
   const LanguageSelection({super.key});
 
   @override
+  _LanguageSelectionState createState() => _LanguageSelectionState();
+}
+
+class _LanguageSelectionState extends State<LanguageSelection> {
+  List<String> languages = []; // List to hold language names
+
+  @override
+  void initState() {
+    super.initState();
+    _loadLanguages(); // Load languages when the widget is initialized
+  }
+
+  // Function to load and parse JSON data
+  Future<void> _loadLanguages() async {
+    final String response = await rootBundle.loadString('lib/data.json');
+    final data = json.decode(response);
+
+    setState(() {
+      languages = List<String>.from(
+        data['languages'].map((language) => language['name']),
+      );
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    //Replace this with Firestore Languages backend
-    final List<String> languages = [
-      'English',
-      'Spanish',
-      'French',
-      'German',
-      'Chinese',
-      'Japanese',
-      'Korean',
-      'Arabic',
-    ];
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -57,29 +74,21 @@ class LanguageSelection extends StatelessWidget {
             const SizedBox(height: 20),
             // Language Buttons
             Expanded(
-              child: ListView.builder(
-                itemCount: languages.length,
-                itemBuilder: (context, index) {
-                  return LanguageButton(
-                    language: languages[index],
-                  );
-                },
-              ),
+              child: languages.isEmpty
+                  ? const Center(child: CircularProgressIndicator())
+                  : ListView.builder(
+                      itemCount: languages.length,
+                      itemBuilder: (context, index) {
+                        return LanguageButton(
+                          language: languages[index],
+                        );
+                      },
+                    ),
             ),
           ],
         ),
       ),
-      bottomNavigationBar: const BottomAppBar(
-        color: Color(0xFF07394B),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Icon(Icons.search, color: Colors.white),
-            Icon(Icons.home, color: Colors.white),
-            Icon(Icons.add, color: Color(0xFF6FED6D)),
-          ],
-        ),
-      ),
+      bottomNavigationBar: const BottomSelect(),
     );
   }
 }

@@ -1,8 +1,11 @@
-import 'package:app/screens/screens.dart';
 import 'package:flutter/material.dart';
+import 'package:app/widgets/Menu/bottom_select.dart';
+import 'package:app/screens/screens.dart';
 
 class WordSelection extends StatelessWidget {
-  const WordSelection({super.key});
+  final List<dynamic> words; // Expecting a list of words
+
+  const WordSelection({super.key, required this.words});
 
   @override
   Widget build(BuildContext context) {
@@ -44,34 +47,21 @@ class WordSelection extends StatelessWidget {
             const SizedBox(height: 20),
             // Word Buttons
             Expanded(
-              child: ListView(
-                children: const [
-                  WordButton(ipaWord: 'Hola', translatedWord: 'Hello'),
-                  WordButton(ipaWord: 'Amigo', translatedWord: 'Friend'),
-                  WordButton(ipaWord: 'Familia', translatedWord: 'Family'),
-                  WordButton(ipaWord: 'Escuela', translatedWord: 'School'),
-                  WordButton(ipaWord: 'Libro', translatedWord: 'Book'),
-                  WordButton(ipaWord: 'Comida', translatedWord: 'Food'),
-                  WordButton(ipaWord: 'Amor', translatedWord: 'Love'),
-                  WordButton(ipaWord: 'Música', translatedWord: 'Music'),
-                  // Add more words as needed
-                ],
+              child: ListView.builder(
+                itemCount: words.length, // The number of words to display
+                itemBuilder: (context, index) {
+                  var word = words[index];
+                  return WordButton(
+                    ipaWord: word['text'], // The word itself (IPA word)
+                    translatedWord: word['translation'], // The translation
+                  );
+                },
               ),
             ),
           ],
         ),
       ),
-      bottomNavigationBar: const BottomAppBar(
-        color: Color(0xFF07394B),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Icon(Icons.search, color: Colors.white),
-            Icon(Icons.home, color: Colors.white),
-            Icon(Icons.add, color: Color(0xFF6FED6D)),
-          ],
-        ),
-      ),
+      bottomNavigationBar: const BottomSelect(),
     );
   }
 }
@@ -154,6 +144,3 @@ class WordButton extends StatelessWidget {
     );
   }
 }
-
-
-//Daniel Gaskins
