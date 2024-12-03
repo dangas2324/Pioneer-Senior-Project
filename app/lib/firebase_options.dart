@@ -85,5 +85,4 @@ class DefaultFirebaseOptions {
     storageBucket: 'pioneerbible-3e556.firebasestorage.app',
     measurementId: 'G-QCMSJ8Z2LM',
   );
-
 }
