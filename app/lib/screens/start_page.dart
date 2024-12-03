@@ -7,15 +7,14 @@ class StartPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<String> languages = [
-      'Spanish'
-    ];
+    final List<String> languages = ['Spanish'];
     //Change this to list of languages from Firestore
 
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: const Color(0xFF074A5F),
+        iconTheme: const IconThemeData(color: Colors.white),
         actions: [
           TextButton(
             onPressed: () {
